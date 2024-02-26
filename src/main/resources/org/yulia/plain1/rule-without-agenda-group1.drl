@@ -18,14 +18,14 @@ then
     insert(new Result(true, "rule-with-agenda-group1.drl"));
 end
 
-query "checkOrderItem"  //0
+query "checkOrderItem"
     (
         calculateValue( $calculatedValue, $orderItem; )  and
         Optional( $calculatedValue.orElse(null) >  10.0 ) from Optional.empty()
     )
 end
 
-query "calculateValue" ( Optional $calculatedValue, OrderItem $oi ) //8
+query "calculateValue" ( Optional $calculatedValue, OrderItem $oi )
     (
         OrderItem( $optionalPrice := Optional.of(price) ) from $oi and
         (
