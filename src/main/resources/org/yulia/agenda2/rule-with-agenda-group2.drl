@@ -1,0 +1,59 @@
+package org.yulia.agenda2
+
+import  java.lang.Double
+import  java.lang.Object
+import  java.util.Optional
+import org.yulia.model.Result;
+import org.yulia.model.OrderItem;
+
+global OrderItem $orderItem
+
+
+rule "Rule init segmentation"
+    agenda-group "Init-ag"
+when
+then
+	drools.setFocus("Rule-ag");
+end
+
+rule "Rule Filter"
+    agenda-group "Rule-ag"
+when
+    checkOrderItem(  )
+then
+    drools.setFocus("Action-ag");
+end
+
+query "checkOrderItem"  //0
+    (
+        calculateValue( $calculatedValue, $orderItem; )  and
+        Optional( $calculatedValue.orElse(null) >  10.0 ) from Optional.empty()
+    )
+end
+
+query "calculateValue" ( Optional $calculatedValue, OrderItem $oi ) //8
+    (
+        OrderItem( $optionalPrice := Optional.of(price) ) from $oi and
+        (
+             (
+                Optional( this.isEmpty() ) from $optionalPrice and
+                Optional( $calculatedValue := this ) from $optionalPrice
+             )
+             or
+             (
+                Optional( !this.isEmpty(), $optionalPriceVal : this.get() ) from $optionalPrice and
+                Double( $modifiedPrice : (this *3) ) from $optionalPriceVal and
+                Optional( $calculatedValue := this ) from Optional.ofNullable($modifiedPrice)
+              )
+        )
+    )
+end
+
+rule "Rule Action"
+    agenda-group "Action-ag"
+when
+then
+	insert(new Result(true, "rule-with-agenda-group1.drl"));
+
+end
+

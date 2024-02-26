@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+    <kbase name="org.yulia.agenda1" packages="org.yulia.agenda1">
+        <ksession name="org.yulia.agenda1.session"  type="stateful"/>
+    </kbase>
+    <kbase name="org.yulia.agenda2" packages="org.yulia.agenda2">
+        <ksession name="org.yulia.agenda2.session" type="stateful"/>
+    </kbase>
+    <kbase name="org.yulia.plain1" packages="org.yulia.plain1">
+        <ksession name="org.yulia.plain1.session" type="stateful"/>
+    </kbase>
+    <kbase name="org.yulia.plain2" packages="org.yulia.plain2">
+        <ksession name="org.yulia.plain2.session" type="stateful"/>
+    </kbase>
+</kmodule>
